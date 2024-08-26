@@ -1,0 +1,134 @@
+{% extends "layout.html" %}
+
+{% block link %}
+    <link href="../static/h_page.css" rel="stylesheet">
+    <link href="../static/swiper-bundle.min.css" rel="stylesheet">
+    <script src="../static/h_page.js"></script>
+    <script src="../static/swiper-bundle.min.js"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="container-1">
+        <div class="content">
+            <i class="web-icon"></i>
+
+            <img src="../static/profile.jpg" alt="You">
+            <p class="name">Name</p>
+
+            <button class="profile-edit">Edit</button>
+
+            <button class="btn">Dashboard</button>
+            <button class="btn">Activity</button>
+
+            <div class="darkbtn">
+                <i class="light"></i>
+                <input type="checkbox" id="darkmodebtn">
+                <i class="dark"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-2">
+        <div class="content">
+            <form class="top-bar">
+                <p>Statistics</p>
+                <input type="search" placeholder="Search something...">
+                <button class="upgrade">Upgrade</button>
+            </form>
+
+            <div class="upper-three">
+                <div class="div-1">                    
+                    <div class="skill-box">
+                        <span class="title">Fitness</span>
+
+                        <div class="skill-bar">
+                            <span class="skill-per fitness">
+                                <span class="tooltip">90%</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="skill-box">
+                        <span class="title">muscle</span>
+
+                        <div class="skill-bar">
+                            <span class="skill-per muscle">
+                                <span class="tooltip">50%</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="div-2">
+                    <div class="calendar-wrapper">
+                        <button id="btnPrev" type="button">&#10094; Prev</button>
+                        <button id="btnNext" type="button">Next &#10095;</button>
+                        <div id="divCal"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lower-three">
+                <div class="div-3">
+                    <div class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="../static/deadlift.jpg" alt="hiit fitness">
+                                <p class="name">Dead Lift</p>
+                                <button type="button">View more</button>
+                            </div>
+                            
+                            <div class="swiper-slide">
+                                <img src="../static/bench_press.jpg" alt="hiit fitness">
+                                <p class="name">Bench Press</p>
+                                <button type="button">View more</button>
+                            </div>
+                            
+                            <div class="swiper-slide">
+                                <img src="../static/split_squats.jpg" alt="hiit fitness">
+                                <p class="name">Split Squats</p>
+                                <button type="button">View more</button>
+                            </div>
+                            
+                            <div class="swiper-slide">  
+                                <img src="../static/leg_press.jpg" alt="hiit fitness">
+                                <p class="name">Leg Press</p>
+                                <button type="button">View more</button>
+                            </div>
+
+                            <div class="swiper-slide">  
+                                <img src="../static/plank.jpg" alt="hiit fitness">
+                                <p class="name">Plank</p>
+                                <button type="button">View more</button>
+                            </div>
+
+                            <div class="swiper-slide">  
+                                <img src="../static/lunge.jpg" alt="hiit fitness">
+                                <p class="name">Lunge</p>
+                                <button type="button">View more</button>
+                            </div>
+
+                            <div class="swiper-slide">  
+                                <img src="../static/crunch.jpg" alt="hiit fitness">
+                                <p class="name">Crunch</p>
+                                <button type="button">View more</button>
+                            </div>
+
+                            <div class="swiper-slide">  
+                                <img src="../static/squat.jpg" alt="hiit fitness">
+                                <p class="name">Squat</p>
+                                <button type="button">View more</button>
+                            </div>
+                        </div>
+                        
+                        <!-- <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div> -->
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+                
+                <div class="div-4"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
