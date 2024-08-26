@@ -4,9 +4,9 @@ import sqlite3
 app = Flask(__name__)
 
 def create_database():
-    conn = sqlite3.connect('project.db')
+    conn = sqlite3.connect('./project.db')
     db = conn.cursor()
-    db.execute('''CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, password TEXT)''')
+    db.execute('''CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT NOT NULL, password TEXT NOT NULL)''')
     conn.commit()
     conn.close()
 
