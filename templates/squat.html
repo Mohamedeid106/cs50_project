@@ -1,0 +1,120 @@
+{% extends "layout.html" %}
+
+{% block link %}
+    <link href="../static/activity_in.css" rel="stylesheet">
+    <script src="../static/activity_in.js"></script>
+{% endblock %}
+
+{% block title %}
+    Squat
+{% endblock %}
+
+{% block body %}
+    <div class="container-1">
+        <div class="content">
+            <i class="web-icon"></i>
+
+            <img src="../static/{{ profile_pic }}" alt="You">
+            <p class="name">{{ name }}</p>
+
+            <a href="/edit" class="profile-edit">Edit</a>
+
+            <a href="/homepage" class="btn">Dashboard</a>
+            <a href="/activity" class="btn">Activity</a>
+            <a href="/logout" class="btn">&#10008; Log out</a>
+
+            <div class="darkbtn">
+                <i class="light"></i>
+                <input type="checkbox" id="darkmodebtn">
+                <i class="dark"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-2">
+        <div class="content">
+            <div class="swiper-slide">  
+                <img src="../static/squat.jpg" alt="Squat fitness">
+                <p class="name">Squat</p>
+            </div>
+        </div>
+        
+        <div class="concept">
+            <h1>What is Squat?</h1>
+
+            <p>
+                The squat is a fundamental movement pattern that requires multiple joint and muscle integration.
+                 Babies squat perfectly. And then we unlearn this in favor of bending over.
+            </p>
+            
+            <p>
+                As a dynamic strength training exercise, squats require several muscles in your upper and lower body to work together simultaneously.
+            </p>
+            
+            <p>
+                Many of these muscles help power you through daily tasks such as walking, climbing stairs, bending, or carrying heavy loads.
+                 They also help you perform athletic-related activities.
+            </p>
+            
+            <p>
+                Adding squats to your workouts can help boost your exercise performance, decrease your risk of injury,
+                 and keep you moving more easily throughout the day. But these are just a few of the benefits.
+            </p>
+
+            <h1>How to do a basic squat:</h1>
+
+            <img src="../static/squat.jpg" alt="Squat">
+
+            <p>
+                Known as a bodyweight squat or an air squat, the most basic type of squat uses just your body weight for resistance.
+                 Variations of the squat can include weights, like barbells or dumbbells, resistance bands, or yoga balls.
+            </p>
+            
+            <p>
+                Ideally, it’s a good idea to work with a trainer to help you with your form when learning a squat.
+                 When you begin, the pressure in the squat should be placed almost evenly through your feet. Sometimes this is called foot tripod.
+            </p>
+
+            <p>
+                Imagine a triangle on the sole of your foot, with pressure placed equally in three areas:
+                 on the front of the foot right behind the big toe, on the front of the foot behind the pinky toe, and on the heel.
+            </p>
+
+            <p>
+                To do a basic squat:
+            </p>
+
+            <ul>
+                <li>
+                    <strong>Step 1</strong>: Start with feet slightly wider than hip-width apart, toes turned slightly out.
+                </li>
+
+                <li>
+                    <strong>Step 2</strong>: Keeping your chest up and out and the pressure even in your feet,
+                     engage your abdominals and shift your weight back into your heels as you push your hips back.
+                </li>
+
+                <li>
+                    <strong>Step 3</strong>: Lower yourself into a squat until either your heels begin to lift off the floor,
+                     or until your torso begins to round or flex forward. Your depth should be determined by your form.
+                </li>
+
+                <li>
+                    <strong>Step 4</strong>: Keep your chest out and core tight as you push through your heels to stand back up to your starting position.
+                     Squeeze your glutes at the top.
+                </li>
+
+                <li>
+                    <strong>Step 5</strong>: Perform 10–15 reps. Work up to 3 sets.
+                </li>
+            </ul>
+        </div>
+
+        <form class="finish" action="/squat" method="post">
+            <button type="submit" class="finish-b" {% if squat_statues %}{% if squat_statues[0][0] == "completed" %}disabled{% endif %}{% endif %}>
+                {% if squat_statues %}{% if squat_statues[0][0] == "completed" %}Completed{% endif %}{% else %}Mark Complete{% endif %}
+            </button>
+        </form>
+    </div>
+
+{% endblock %}

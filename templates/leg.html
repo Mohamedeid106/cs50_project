@@ -1,0 +1,114 @@
+{% extends "layout.html" %}
+
+{% block link %}
+    <link href="../static/activity_in.css" rel="stylesheet">
+    <script src="../static/activity_in.js"></script>
+{% endblock %}
+
+{% block title %}
+    Leg Press
+{% endblock %}
+
+{% block body %}
+    <div class="container-1">
+        <div class="content">
+            <i class="web-icon"></i>
+
+            <img src="../static/{{ profile_pic }}" alt="You">
+            <p class="name">{{ name }}</p>
+
+            <a href="/edit" class="profile-edit">Edit</a>
+
+            <a href="/homepage" class="btn">Dashboard</a>
+            <a href="/activity" class="btn">Activity</a>
+            <a href="/logout" class="btn">&#10008; Log out</a>
+
+            <div class="darkbtn">
+                <i class="light"></i>
+                <input type="checkbox" id="darkmodebtn">
+                <i class="dark"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-2">
+        <div class="content">
+            <div class="swiper-slide">  
+                <img src="../static/leg_press.jpg" alt="Leg Press">
+                <p class="name">Leg Press</p>
+            </div>
+        </div>
+        
+        <div class="concept">
+            <h1>What is a Leg Press?</h1>
+
+            <p>
+                The leg press is a popular piece of gym equipment that can help build key muscles in your legs.
+                 There are two leg press machines commonly found in gyms and home gyms:
+                  the standard horizontal leg press and the 45-degree leg press,
+                   with a seat that reclines at an angle while your legs press upward in a diagonal direction.
+            </p>
+
+            <p>
+                Both machines develop the quadriceps and hamstrings of the thigh and the gluteus (buttocks).
+                 While it seems like a simple exercise, it's essential to learn how to use it properly.
+                  Paying attention to your form can maximize the strength-building benefits and prevent injury.
+                   The leg press is used as part of a leg strengthening routine or a machine circuit workout.
+            </p>
+
+            <h1>How to do a Leg Press:</h1>
+
+            <img src="../static/leg_press.jpg" alt="Leg Press">
+
+            <p>
+                When you sit down at a seated leg press machine, your body should be in a particular position.
+                 Sit on the machine with your back and head resting comfortably against the padded support.
+                  Place your feet on the footplate about hip-width apart while ensuring that your heels are flat.
+            </p>
+
+            <p>
+                Your bottom should be flat against the seat rather than raised. Your legs should form an angle of about 90 degrees at the knees.
+                 If your feet are too high on the plate, it will stress your glutes; too low puts unnecessary pressure on your knees.
+                  Your knees should be in line with your feet and neither be bowed inward nor outward.
+            </p>
+
+            <p>
+                As you press, make sure to keep this alignment. Grasp the assist handles to provide support and keep your spine and head in position.
+            </p>
+
+            <ul>
+                <li>
+                    <strong>Step 1</strong>: Brace your abdominal muscles and push the platform away with your heels and forefoot.
+                     Your heels should remain flat on the footplate.
+                      The front of your foot or toes should never be used exclusively to move the pad forward.
+                </li>
+
+                <li>
+                    <strong>Step 2</strong>: While exhaling, extend your legs and keep your head and back flat against the seat pad.
+                     Extend with slow control rather than with an explosive movement.
+                </li>
+
+                <li>
+                    <strong>Step 3</strong>: Pause at the top of the movement. Do not lock out your knees, and ensure that they are not bowing out or in.
+                </li>
+
+                <li>
+                    <strong>Step 4</strong>: While inhaling, return the footplate to the starting position by gradually bending the knees.
+                     Keep the feet and back flat throughout.
+                </li>
+
+                <li>
+                    <strong>Step 5</strong>: If you have never done leg presses, start modestly with three sets of 10 leg presses.
+                     You can advance from there as you build strength.
+                </li>
+            </ul>
+        </div>
+
+        <form class="finish" action="/leg" method="post">
+            <button type="submit" class="finish-b" {% if leg_statues %}{% if leg_statues[0][0] == "completed" %}disabled{% endif %}{% endif %}>
+                {% if leg_statues %}{% if leg_statues[0][0] == "completed" %}Completed{% endif %}{% else %}Mark Complete{% endif %}
+            </button>
+        </form>
+    </div>
+
+{% endblock %}

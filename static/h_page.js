@@ -2,12 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let darkmodeenabled = false;
   const darkmodebtn = document.getElementById("darkmodebtn");
   let btns = document.querySelectorAll(".container-1 .content .btn");
-
-  btns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      btn.style.backgroundColor = "#d2d3db62";
-    });
-  });
   
   darkmodebtn.addEventListener("click", () => {
       darkmodeenabled = !darkmodeenabled;

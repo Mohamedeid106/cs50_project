@@ -1,9 +1,11 @@
 {% extends "layout.html" %}
 
 {% block link %}
-
     <link href="../static/main.css" rel="stylesheet">
-    
+{% endblock %}
+
+{% block title %}
+    Log In
 {% endblock %}
 
 {% block body %}
@@ -14,18 +16,22 @@
         <div class="shape"></div>
     </div>
 
-    <form action="/login" method="post" class="login">
+    {% for message in get_flashed_messages() %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
+    <form action="/login" method="post">
         <h3>Login Here</h3>
 
         <label for="username">Username</label>
-        <input type="text" autocomplete="off" autofocus required placeholder="Your Email" name="username" id="username">
+        <input type="text" autocomplete="off" autofocus required placeholder="Your Name" name="username" id="username">
 
         <label for="password">Password</label>
         <input type="password" autocomplete="off" required placeholder="Password" name="password" id="password">
 
         <button type="submit">Log In</button>
-        <button class="register" type="submit">Register</button>
     </form>
-
+    
+    <button class="register" type="button"><a href="/register">Register</a></button>
 
 {% endblock %}

@@ -1,0 +1,112 @@
+{% extends "layout.html" %}
+
+{% block link %}
+    <link href="../static/activity_in.css" rel="stylesheet">
+    <script src="../static/activity_in.js"></script>
+{% endblock %}
+
+{% block title %}
+    Dead Lift
+{% endblock %}
+
+{% block body %}
+    <div class="container-1">
+        <div class="content">
+            <i class="web-icon"></i>
+
+            <img src="../static/{{ profile_pic }}" alt="You">
+            <p class="name">{{ name }}</p>
+
+            <a href="/edit" class="profile-edit">Edit</a>
+
+            <a href="/homepage" class="btn">Dashboard</a>
+            <a href="/activity" class="btn">Activity</a>
+            <a href="/logout" class="btn">&#10008; Log out</a>
+
+            <div class="darkbtn">
+                <i class="light"></i>
+                <input type="checkbox" id="darkmodebtn">
+                <i class="dark"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-2">
+        <div class="content">
+            <div class="swiper-slide">  
+                <img src="../static/deadlift.jpg" alt="Dead Lift">
+                <p class="name">Dead Lift</p>
+            </div>
+        </div>
+        
+        <div class="concept">
+            <h1>What is Dead Lift?</h1>
+
+            <p>
+                The deadlift is a great way to build strong legs and butt.
+                 In a deadlift, you lift weight from the ground to thigh level using primarily your leg and hip muscles,
+                  but with the assistance of most of the large muscle groups of your body.
+                   The deadlift is usually performed with a bar and plates or a fixed barbell, but you can do it with dumbbells.
+                    It is a specialty of powerlifters that you shouldn't ignore in general fitness training.
+                     Make deadlifts part of your strength-training workouts to build muscle and functional fitness.
+            </p>
+
+            <h1>How to Perform a Deadlift:</h1>
+
+            <img src="../static/deadlift.jpg" alt="Dead Lift">
+
+            <p>
+                Select a lightweight barbell or two dumbbells.
+            </p>
+
+            <ul>
+                <li>
+                    <strong>Step 1</strong>: Grasp the bar just outside the line of your knees with an overhand or mixed grip.
+                </li>
+
+                <li>
+                    <strong>Step 2</strong>: Position your feet shoulder-width apart (or not much more) with toes under the bar.
+                     Your feet point straight ahead, or they can angle out slightly.
+                      Heels should stay flat on the surface. As you lift and lower the bar,
+                       it will travel close to the shins and may even graze them. Maintain a neutral spine position.
+                </li>
+
+                <li>
+                    <strong>Step 3</strong>: Engage your abdominal muscles.
+                </li>
+
+                <li>
+                    <strong>Step 4</strong>: Slowly bring the weight down as far as you can while maintaining proper form,
+                     softening your knees, and keeping your back flat.
+                </li>
+
+                <li>
+                    <strong>Step 5</strong>: Lift the bar by pushing upward with the legs from the knees.
+                     Breathe out on exertion. Be careful not to raise the hips first so the trunk moves forward and the back becomes rounded.
+                      Don’t try to haul the bar up with your arms. The arms stay extended under tension while gripping the bar as the legs push up.
+                       Think of the legs and shoulders moving upward in unison with the hips, the balancing point.
+                </li>
+
+                <li>
+                    <strong>Step 6</strong>: The bar should almost graze the shins and rest around the thighs as you reach full height.
+                     Pull the shoulders back as much as possible without bending backward.
+                </li>
+
+                <li>
+                    <strong>Step 7</strong>: Lower the bar toward the floor with a reverse motion ensuring a straight back.
+                </li>
+                
+                <li>
+                    <strong>Step 8</strong>: Repeat for your desired number of repetitions.
+                </li>
+            </ul>
+        </div>
+
+        <form class="finish" action="/dlift" method="post">
+            <button type="submit" class="finish-b" {% if dlift_statues %}{% if dlift_statues[0][0] == "completed" %}disabled{% endif %}{% endif %}>
+                {% if dlift_statues %}{% if dlift_statues[0][0] == "completed" %}Completed{% endif %}{% else %}Mark Complete{% endif %}
+            </button>
+        </form>
+    </div>
+
+{% endblock %}

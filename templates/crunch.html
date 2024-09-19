@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+
+{% block link %}
+    <link href="../static/activity_in.css" rel="stylesheet">
+    <script src="../static/activity_in.js"></script>
+{% endblock %}
+
+{% block title %}
+    Crunch
+{% endblock %}
+
+{% block body %}
+    <div class="container-1">
+        <div class="content">
+            <i class="web-icon"></i>
+
+            <img src="../static/{{ profile_pic }}" alt="You">
+            <p class="name">{{ name }}</p>
+
+            <a href="/edit" class="profile-edit">Edit</a>
+
+            <a href="/homepage" class="btn">Dashboard</a>
+            <a href="/activity" class="btn">Activity</a>
+            <a href="/logout" class="btn">&#10008; Log out</a>
+
+            <div class="darkbtn">
+                <i class="light"></i>
+                <input type="checkbox" id="darkmodebtn">
+                <i class="dark"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-2">
+        <div class="content">
+            <div class="swiper-slide">  
+                <img src="../static/crunch.jpg" alt="Crunch fitness">
+                <p class="name">Crunch</p>
+            </div>
+        </div>
+        
+        <div class="concept">
+            <h1>What is crunch?</h1>
+
+            <p>
+                The crunch is a classic core exercise. It specifically trains your abdominal muscles, which are part of your core.
+            </p>
+            
+            <p>
+                Your core consists not only of your abs. It also includes your oblique muscles on the sides of your trunk,
+                 as well as the muscles in your pelvis, lower back, and hips. Together, these muscles help stabilize your body.
+            </p>
+            
+            <p>
+                While the crunch is a popular core move, it isn’t safe for everyone.
+                 It can place a lot of stress on your back and neck, and it only works your abs, not the other muscles in your core.
+            </p>
+            
+            <p>
+                In this article, we’ll look at the pros and cons of doing crunches, and how to do the exercise with good form.
+                 We’ll also explore alternative exercises that may be safer and more effective at working your core muscles.
+            </p>
+
+            <h1>How to do a bicycle crunch:</h1>
+
+            <img src="../static/crunch.jpg" alt="Crunch">
+
+            <p>
+                The bicycle crunch is an intermediate version of the basic crunch. It works both the abs and obliques.
+            </p>
+
+            <ul>
+                <li>
+                    <strong>Step 1</strong>: Lie down on your back. Bend your knees and plant your feet on the floor, hip-width apart.
+                     Place your arms behind your head, pointing your elbows outward.
+                </li>
+
+                <li>
+                    <strong>Step 2</strong>: Brace your abs. Lift your knees to 90 degrees and raise your upper body. This is your starting position.
+                </li>
+
+                <li>
+                    <strong>Step 3</strong>: Exhale and rotate your trunk, moving your right elbow and left knee toward each other.
+                     Simultaneously straighten your right leg. Pause.
+                </li>
+
+                <li>
+                    <strong>Step 4</strong>: Inhale and return to starting position.
+                </li>
+
+                <li>
+                    <strong>Step 5</strong>: Exhale. Move your left elbow to your right knee and extend your left leg. Pause. This completes 1 rep.
+                </li>
+            </ul>
+
+            <p>
+                To avoid strain, keep your lower back on the floor and shoulders away from your ears. Rotate from your core instead of your neck or hips.
+            </p>
+        </div>
+        <form class="finish" action="/crunch" method="post">
+            <button type="submit" class="finish-b" {% if crunch_statues %}{% if crunch_statues[0][0] == "completed" %}disabled{% endif %}{% endif %}>
+                {% if crunch_statues %}{% if crunch_statues[0][0] == "completed" %}Completed{% endif %}{% else %}Mark Complete{% endif %}
+            </button>
+        </form>
+    </div>
+
+{% endblock %}

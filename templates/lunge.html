@@ -1,0 +1,114 @@
+{% extends "layout.html" %}
+
+{% block link %}
+    <link href="../static/activity_in.css" rel="stylesheet">
+    <script src="../static/activity_in.js"></script>
+{% endblock %}
+
+{% block title %}
+    Lunge
+{% endblock %}
+
+{% block body %}
+    <div class="container-1">
+        <div class="content">
+            <i class="web-icon"></i>
+
+            <img src="../static/{{ profile_pic }}" alt="You">
+            <p class="name">{{ name }}</p>
+
+            <a href="/edit" class="profile-edit">Edit</a>
+
+            <a href="/homepage" class="btn">Dashboard</a>
+            <a href="/activity" class="btn">Activity</a>
+            <a href="/logout" class="btn">&#10008; Log out</a>
+
+            <div class="darkbtn">
+                <i class="light"></i>
+                <input type="checkbox" id="darkmodebtn">
+                <i class="dark"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-2">
+        <div class="content">
+            <div class="swiper-slide">  
+                <img src="../static/lunge.jpg" alt="Lunge fitness">
+                <p class="name">Lunge</p>
+            </div>
+        </div>
+        
+        <div class="concept">
+            <h1>What are the benefits of lunges?</h1>
+
+            <p>
+                Lunges have multiple benefits. The biggest one is that they work several muscle groups of the lower body at the same time. 
+                Thus, they’re an important exercise in many strengthening and injury prevention programs,
+                 such as for anterior cruciate ligament (ACL) injury prevention.
+            </p>
+            
+            <p>
+                Lunges are considered a unilateral exercise given the workload required of the lead leg compared to the rear.
+            </p>
+            
+            <p>
+                This allows you to better improve asymmetries in strength,
+                 compared with squats, for instance. Also, lunges challenge and improve your balance and stability in unilateral movements.
+            </p>
+            
+            <p>
+                The lunge is a great exercise for runners in that the mechanics are similar to running.
+                 The step out to landing is similar to the movements of a running stride,
+                  but without the large ground reaction force the body experiences when running.
+            </p>
+            
+            <p>
+                This makes the lunge a great exercise to build stronger muscles with which to absorb the impact of higher intensity movements.
+                 One older study found lunges — especially walking or jumping variations — to be very effective at training young athletes.
+            </p>
+            
+            <p>
+                Furthermore, opposing muscles of the legs are worked at the same time in the lunge.
+                 This can mean increased efficiency for a resistance program.
+            </p>
+            
+            <p>
+                If you only have time for a few exercises,
+                 it would be better to incorporate exercises that work multiple joints at the same time.
+            </p>
+
+            <h1>How to do a lunge:</h1>
+
+            <img src="../static/lunge.jpg" alt="Lunge">
+
+            <ul>
+                <li>
+                    <strong>Step 1</strong>: Start in a standing position with your feet hip-width apart.
+                </li>
+
+                <li>
+                    <strong>Step 2</strong>: Step forward longer than a walking stride so one leg is ahead of your torso and the other is behind.
+                     Your foot should land flat and remain flat while it’s on the ground.
+                      Your rear heel will rise off of the ground.
+                </li>
+
+                <li>
+                    <strong>Step 3</strong>: Bend your knees to approximately 90 degrees as you lower yourself.
+                     Remember to keep your trunk upright and core engaged.
+                </li>
+
+                <li>
+                    <strong>Step 4</strong>: Then, forcefully push off from your front leg to return to the starting position.
+                </li>
+            </ul>
+        </div>
+
+        <form class="finish" action="/lunge" method="post">
+            <button type="submit" class="finish-b" {% if lunge_statues %}{% if lunge_statues[0][0] == "completed" %}disabled{% endif %}{% endif %}>
+                {% if lunge_statues %}{% if lunge_statues[0][0] == "completed" %}Completed{% endif %}{% else %}Mark Complete{% endif %}
+            </button>
+        </form>
+    </div>
+
+{% endblock %}

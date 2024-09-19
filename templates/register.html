@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block link %}
+    <link href="../static/register.css" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block body %}
+
+    <div class="background">
+        <div class="shape"></div>
+
+        <div class="shape"></div>
+    </div>
+
+    {% for message in get_flashed_messages() %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
+    <form action="/register" method="post">
+        <h3>Register Here</h3>
+
+        <label for="username">Username</label>
+        <input type="text" autocomplete="off" autofocus required placeholder="Your Name" name="username" id="username">
+
+        <label for="password">Password</label>
+        <input type="password" autocomplete="off" required placeholder="Password" name="password" id="password">
+
+        <label for="confirmation">Password Confirmation</label>
+        <input type="password" autocomplete="off" required placeholder="Password (again)" name="confirmation" id="confirmation">
+        
+        <button type="submit">Register</button>
+    </form>
+    
+{% endblock %}

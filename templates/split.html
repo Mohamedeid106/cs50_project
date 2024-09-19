@@ -1,0 +1,125 @@
+{% extends "layout.html" %}
+
+{% block link %}
+    <link href="../static/activity_in.css" rel="stylesheet">
+    <script src="../static/activity_in.js"></script>
+{% endblock %}
+
+{% block title %}
+    Split Squats
+{% endblock %}
+
+{% block body %}
+    <div class="container-1">
+        <div class="content">
+            <i class="web-icon"></i>
+
+            <img src="../static/{{ profile_pic }}" alt="You">
+            <p class="name">{{ name }}</p>
+
+            <a href="/edit" class="profile-edit">Edit</a>
+
+            <a href="/homepage" class="btn">Dashboard</a>
+            <a href="/activity" class="btn">Activity</a>
+            <a href="/logout" class="btn">&#10008; Log out</a>
+
+            <div class="darkbtn">
+                <i class="light"></i>
+                <input type="checkbox" id="darkmodebtn">
+                <i class="dark"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-2">
+        <div class="content">
+            <div class="swiper-slide">  
+                <img src="../static/split_squats.jpg" alt="Split Squats">
+                <p class="name">Split Squats</p>
+            </div>
+        </div>
+        
+        <div class="concept">
+            <h1>What is the point for Split Squats?</h1>
+
+            <p>
+                As a lower body exercise, it strengthens the muscles of the legs, including the quads, hamstrings, glutes, and calves.
+            </p>
+
+            <p>
+                Also, as a single-leg exercise, your core is forced to work in overdrive to maintain your balance.
+            </p>
+
+            <p>
+                And although the Bulgarian split squat works many of the same muscles as a traditional squat, for some, it’s a preferred exercise.
+            </p>
+
+            <p>
+                A traditional squat puts a sizable load on your lower back — potentially causing injury —
+                 but the Bulgarian split squat largely removes the lower back from the equation, putting the emphasis on the legs.
+            </p>
+
+            <p>
+                If you have back problems — or even if you don’t! — this move could be a great option for you.
+            </p>
+
+            <h1>How to do a Split Squats:</h1>
+
+            <img src="../static/Dumbbell-or-kettlebell-.gif" alt="Split Squats">
+
+            <p>
+                Hold a dumbbell or kettlebell in each hand while executing a Bulgarian split squat.
+            </p>
+
+            <ul>
+                <li>
+                    <strong>Step 1</strong>: Start by standing about 2 feet in front of a knee-level bench or step.
+                </li>
+
+                <li>
+                    <strong>Step 2</strong>: Lift your right leg up behind you and place the top of your foot on the bench.
+                     Your feet should still be about shoulder-width apart,
+                      and your right foot should be far enough in front of the bench where you can comfortably lunge
+                       — hop around a bit so you can find the right spot.
+                        If a closer foot position works, just ensure that when you lower down,
+                         your left knee doesn’t fall over the line of your toes.
+                </li>
+
+                <li>
+                    <strong>Step 3</strong>: While engaging your core, roll your shoulders back and lean slightly forward at the waist,
+                     beginning to lower down on your left leg, bending the knee.
+                </li>
+
+                <li>
+                    <strong>Step 4</strong>: If completing a quad-dominant Bulgarian split squat, stop before your knee falls over your toes.
+                     If completing a glute-dominant Bulgarian split squat, stop when your left thigh is parallel to the ground.
+                </li>
+
+                <li>
+                    <strong>Step 5</strong>: Push up through your left foot, using the power from your quads and hamstrings to return to standing.
+                </li>
+
+                <li>
+                    <strong>Step 6</strong>: Repeat for the desired number of reps on this leg, then switch, putting the left foot up on the bench.
+                </li>
+            </ul>
+
+            <p>
+                If you’re new to Bulgarian split squats,
+                 start with 2 sets of 6 to 8 reps on each leg until you get acclimated to the movement and gain some strength.
+            </p>
+
+            <p>
+                When you can complete 3 sets of 12 reps on each leg comfortably,
+                 consider adding a light dumbbell in each hand for some additional resistance.
+            </p>
+        </div>
+
+        <form class="finish" action="/split" method="post">
+            <button type="submit" class="finish-b" {% if split_statues %}{% if split_statues[0][0] == "completed" %}disabled{% endif %}{% endif %}>
+                {% if split_statues %}{% if split_statues[0][0] == "completed" %}Completed{% endif %}{% else %}Mark Complete{% endif %}
+            </button>
+        </form>
+    </div>
+
+{% endblock %}

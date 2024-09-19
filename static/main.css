@@ -38,7 +38,7 @@ body{
     bottom: -79px;
 }
 
-form.login{
+form {
     height: 520px;
     width: 400px;
     background-color: rgba(255,255,255,0.13);
@@ -91,7 +91,7 @@ input{
     color: #e5e5e5;
 }
 
-button{
+form button{
     margin-top: 50px;
     width: 100%;
     background-color: #ffffff;
@@ -103,17 +103,35 @@ button{
     cursor: pointer;
 }
 
-form .register{
-    margin-top: 20px;
-    margin-left: 90px;
+.register{
+    font-size: 18px;
+    font-weight: 200;
+    font-family: 'Poppins',sans-serif;
     width: 150px;
-    border-radius: 3px;
-    padding: 5px 10px 10px 5px;
-    background-color: rgba(255,255,255,0.27);
+    position: absolute;
+    border: none;
+    background: none;
+    background-color: transparent;
     color: #eaf0fb;
+    margin: auto;
     text-align: center;
+    text-decoration: underline;
+    bottom: 110px;
+    left: 0;
+    right: 0;
+    cursor: pointer;
 }
 
-form .register:hover{
-    background-color: rgba(255,255,255,0.47);
+.register a {
+    color: #eaf0fb;
+}
+
+p {
+    font-family: 'Poppins',sans-serif;
+    color: #eaf0fb;
+    position: absolute;
+    margin: 30px auto;
+    left: 0;
+    right: 0;
+    text-align: center;
 }

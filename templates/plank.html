@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+
+{% block link %}
+    <link href="../static/activity_in.css" rel="stylesheet">
+    <script src="../static/activity_in.js"></script>
+{% endblock %}
+
+{% block title %}
+    Plank
+{% endblock %}
+
+{% block body %}
+    <div class="container-1">
+        <div class="content">
+            <i class="web-icon"></i>
+
+            <img src="../static/{{ profile_pic }}" alt="You">
+            <p class="name">{{ name }}</p>
+
+            <a href="/edit" class="profile-edit">Edit</a>
+
+            <a href="/homepage" class="btn">Dashboard</a>
+            <a href="/activity" class="btn">Activity</a>
+            <a href="/logout" class="btn">&#10008; Log out</a>
+
+            <div class="darkbtn">
+                <i class="light"></i>
+                <input type="checkbox" id="darkmodebtn">
+                <i class="dark"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-2">
+        <div class="content">
+            <div class="swiper-slide">  
+                <img src="../static/plank.jpg" alt="Plank fitness">
+                <p class="name">Plank</p>
+            </div>
+        </div>
+        
+        <div class="concept">
+            <h1>What Is a Plank?</h1>
+
+            <p>A plank involves balancing on toes and forearms as you hold the rest of your body off the ground.
+                 Your spine is kept in a neutral position and your head, torso, and legs are aligned.
+                  Planking is an isometric exercise since keep your core muscles contracted in one position.
+            </p>
+
+            <h1>How to Do a Plank:</h1>
+
+            <img src="../static/plank_1.png" alt="Plank">
+
+            <p>Select a position where you can extend your whole body length.
+                 Using a yoga mat or exercise mat will give you enough padding to be comfortable on all fours.
+                  You can choose whether to perform a plank on your palms or your forearms, as shown in the video.
+                   A variety of wrist wraps are available to provide joint support.
+            </p>
+
+            <ul>
+                <li>
+                    <strong>Step 1</strong>: Begin in the plank position, face down with your forearms and toes on the floor.
+                     Your elbows are directly under your shoulders and your forearms are facing forward.
+                      Your head is relaxed and you should be looking at the floor.
+                </li>
+
+                <li>
+                    <strong>Step 2</strong>: Engage your abdominal muscles, drawing your navel toward your spine.
+                     Keep your torso straight and rigid and your body in a straight line from your ears to your toes with no sagging or bending.
+                      This is the neutral spine position. Ensure your shoulders are down, not creeping up toward your ears.
+                       Your heels should be over the balls of your feet.
+                </li>
+
+                <li>
+                    <strong>Step 3</strong>: Hold this position for 10 seconds. Release to floor.
+                </li>
+
+                <li>
+                    <strong>Step 4</strong>: Over time work up to 30, 45, or 60 seconds.
+                </li>
+            </ul>
+        </div>
+
+        <form class="finish" action="/plank" method="post">
+            <button type="submit" class="finish-b" {% if plank_statues %}{% if plank_statues[0][0] == "completed" %}disabled{% endif %}{% endif %}>
+                {% if plank_statues %}{% if plank_statues[0][0] == "completed" %}Completed{% endif %}{% else %}Mark Complete{% endif %}
+            </button>
+        </form>
+    </div>
+
+{% endblock %}

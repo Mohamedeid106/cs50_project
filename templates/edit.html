@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block link %}
+    <link href="../static/edit.css" rel="stylesheet">
+    <script src="../static/edit.js"></script>
+{% endblock %}
+
+{% block title %}
+    Edit
+{% endblock %}
+
+{% block body %}
+    <div class="container-1">
+        <div class="content">
+            <i class="web-icon"></i>
+
+            <img src="../static/{{ profile_pic }}" alt="You">
+            <p class="name">{{ name }}</p>
+
+            <a href="/edit" class="profile-edit">Edit</a>
+
+            <a href="/homepage" class="btn">Dashboard</a>
+            <a href="/activity" class="btn">Activity</a>
+            <a href="/logout" class="btn">&#10008; Log out</a>
+
+            <div class="darkbtn">
+                <i class="light"></i>
+                <input type="checkbox" id="darkmodebtn">
+                <i class="dark"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-2">
+        <h3>Edit your picture</h3>
+
+        <img src="../static/{{ profile_pic }}" alt="You">
+        
+        {% for message in get_flashed_messages() %}
+            <p>{{ message }}</p>
+        {% endfor %}
+
+        <form action="/edit" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" autocomplete="off" required>
+            <button type="submit">Submit</button>
+        </form>
+
+        <h3>Edit your name</h3>
+        <form action="/homepage" method="post">
+            <label for="name">Name:</label>
+            <input type="text" autocomplete="off" required placeholder="Your Name" name="name" id="name">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+{% endblock %}

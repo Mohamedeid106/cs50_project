@@ -7,18 +7,23 @@
     <script src="../static/swiper-bundle.min.js"></script>
 {% endblock %}
 
+{% block title %}
+    Home
+{% endblock %}
+
 {% block body %}
     <div class="container-1">
         <div class="content">
             <i class="web-icon"></i>
 
-            <img src="../static/profile.jpg" alt="You">
-            <p class="name">Name</p>
+            <img src="../static/{{ profile_pic }}" alt="You">
+            <p class="name">{{ name }}</p>
 
-            <button class="profile-edit">Edit</button>
+            <a href="/edit" class="profile-edit">Edit</a>
 
-            <button class="btn">Dashboard</button>
-            <button class="btn">Activity</button>
+            <a href="/homepage" class="btn">Dashboard</a>
+            <a href="/activity" class="btn">Activity</a>
+            <a href="/logout" class="btn">&#10008; Log out</a>
 
             <div class="darkbtn">
                 <i class="light"></i>
@@ -42,18 +47,18 @@
                         <span class="title">Fitness</span>
 
                         <div class="skill-bar">
-                            <span class="skill-per fitness">
-                                <span class="tooltip">90%</span>
+                            <span class="skill-per fitness" style="width: {{ fitness_progress }}%;">
+                                <span class="tooltip">{{ fitness_progress }}%</span>
                             </span>
                         </div>
                     </div>
 
                     <div class="skill-box">
-                        <span class="title">muscle</span>
+                        <span class="title">muscular</span>
 
                         <div class="skill-bar">
-                            <span class="skill-per muscle">
-                                <span class="tooltip">50%</span>
+                            <span class="skill-per muscular" style="width: {{ muscular_progress }}%;">
+                                <span class="tooltip">{{ muscular_progress }}%</span>
                             </span>
                         </div>
                     </div>
@@ -75,49 +80,49 @@
                             <div class="swiper-slide">
                                 <img src="../static/deadlift.jpg" alt="hiit fitness">
                                 <p class="name">Dead Lift</p>
-                                <button type="button">View more</button>
+                                <a href="/dlift">View more</a>
                             </div>
                             
                             <div class="swiper-slide">
                                 <img src="../static/bench_press.jpg" alt="hiit fitness">
                                 <p class="name">Bench Press</p>
-                                <button type="button">View more</button>
+                                <a href="/bench">View more</a>
                             </div>
                             
                             <div class="swiper-slide">
                                 <img src="../static/split_squats.jpg" alt="hiit fitness">
                                 <p class="name">Split Squats</p>
-                                <button type="button">View more</button>
+                                <a href="/split">View more</a>
                             </div>
                             
                             <div class="swiper-slide">  
                                 <img src="../static/leg_press.jpg" alt="hiit fitness">
                                 <p class="name">Leg Press</p>
-                                <button type="button">View more</button>
+                                <a href="/leg">View more</a>
                             </div>
 
                             <div class="swiper-slide">  
                                 <img src="../static/plank.jpg" alt="hiit fitness">
                                 <p class="name">Plank</p>
-                                <button type="button">View more</button>
+                                <a href="/plank">View more</a>
                             </div>
 
                             <div class="swiper-slide">  
                                 <img src="../static/lunge.jpg" alt="hiit fitness">
                                 <p class="name">Lunge</p>
-                                <button type="button">View more</button>
+                                <a href="/lunge">View more</a>
                             </div>
 
                             <div class="swiper-slide">  
                                 <img src="../static/crunch.jpg" alt="hiit fitness">
                                 <p class="name">Crunch</p>
-                                <button type="button">View more</button>
+                                <a href="/crunch">View more</a>
                             </div>
 
                             <div class="swiper-slide">  
                                 <img src="../static/squat.jpg" alt="hiit fitness">
                                 <p class="name">Squat</p>
-                                <button type="button">View more</button>
+                                <a href="/squat">View more</a>
                             </div>
                         </div>
                         
@@ -127,7 +132,7 @@
                     </div>
                 </div>
                 
-                <div class="div-4"></div>
+                <div class="div-4"><a href="https://chatgpt.com" target="_blank"></a></div>
             </div>
         </div>
     </div>
