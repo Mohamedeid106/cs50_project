@@ -311,7 +311,7 @@ body {
 .upper-three .div-1:hover,
 .lower-three .div-3:hover, .lower-three .div-4:hover,
 .container-2 .content .top-bar .upgrade:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 .container-2 .content .upper-three .div-1 {

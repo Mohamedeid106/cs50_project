@@ -129,6 +129,15 @@ def register():
 
         session["user_id"] = new_user[0][0]
 
+        conn = sqlite3.connect('./project.db')
+        db = conn.cursor()
+        name = db.execute("SELECT user_name FROM users WHERE id = ?", (session["user_id"],))
+        name = name.fetchall()
+        conn.commit()
+        conn.close()
+
+        session['user_name'] = name[0][0]
+
         # Redirect user to home page
         return redirect("/homepage")
 
