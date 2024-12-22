@@ -33,29 +33,29 @@
 
     <div class="container-2">
         <div class="content">
-            <div class="swiper-slide">  
+            <div class="swiper-slide">
                 <img src="../static/crunch.jpg" alt="Crunch fitness">
                 <p class="name">Crunch</p>
             </div>
         </div>
-        
+
         <div class="concept">
             <h1>What is crunch?</h1>
 
             <p>
                 The crunch is a classic core exercise. It specifically trains your abdominal muscles, which are part of your core.
             </p>
-            
+
             <p>
                 Your core consists not only of your abs. It also includes your oblique muscles on the sides of your trunk,
                  as well as the muscles in your pelvis, lower back, and hips. Together, these muscles help stabilize your body.
             </p>
-            
+
             <p>
                 While the crunch is a popular core move, it isn’t safe for everyone.
                  It can place a lot of stress on your back and neck, and it only works your abs, not the other muscles in your core.
             </p>
-            
+
             <p>
                 In this article, we’ll look at the pros and cons of doing crunches, and how to do the exercise with good form.
                  We’ll also explore alternative exercises that may be safer and more effective at working your core muscles.
@@ -98,8 +98,8 @@
             </p>
         </div>
         <form class="finish" action="/crunch" method="post">
-            <button type="submit" class="finish-b" {% if crunch_statues %}{% if crunch_statues[0][0] == "completed" %}disabled{% endif %}{% endif %}>
-                {% if crunch_statues %}{% if crunch_statues[0][0] == "completed" %}Completed{% endif %}{% else %}Mark Complete{% endif %}
+            <button type="submit" class="finish-b" {% if crunch_statues %}{% if crunch_statues[0]["statues"] == "completed" %}disabled{% endif %}{% endif %}>
+                {% if crunch_statues %}{% if crunch_statues[0]["statues"] == "completed" %}Completed{% endif %}{% else %}Mark Complete{% endif %}
             </button>
         </form>
     </div>

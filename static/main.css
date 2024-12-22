@@ -1,137 +1,209 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap");
 
-*, *:before, *:after{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+*, *::before, *::after{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-body{
-    background-color: #080710;
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #080710;
 }
 
-.background{
-    width: 430px;
-    height: 520px;
-    position: absolute;
-    transform: translate(-50%,-50%);
-    left: 50%;
-    top: 50%;
+.shape {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
 }
 
-.background .shape{
-    height: 200px;
-    width: 200px;
-    position: absolute;
-    border-radius: 50%;
+.shape.one {
+  background: linear-gradient(#1845ad,#23a2f6);
+  position: relative;
+  top: -240px;
+  left: 105px;
 }
 
-.shape:first-child{
-    background: linear-gradient(#1845ad,#23a2f6);
-    left: -80px;
-    top: -80px;
-}
-
-.shape:last-child{
-    background: linear-gradient(to right,#ff512f,#f09819);
-    right: -30px;
-    bottom: -79px;
+.shape.two {
+  background: linear-gradient(to right,#ff512f,#f09819);
+  position: relative;
+  bottom: -239px;
+  right: 155px;
+  z-index: -1;
 }
 
 form {
-    height: 520px;
-    width: 400px;
-    background-color: rgba(255,255,255,0.13);
-    position: absolute;
-    transform: translate(-50%,-50%);
-    top: 50%;
-    left: 50%;
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255,255,255,0.1);
-    box-shadow: 0 0 40px rgba(8,7,16,0.6);
-    padding: 50px 35px;
+  height: 520px;
+  width: 90%;
+  max-width: 400px;
+  background-color: rgba(255,255,255,0.13);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255,255,255,0.1);
+  box-shadow: 0 0 40px rgba(8,7,16,0.6);
+  padding: 50px 35px;
 }
 
 form *{
-    font-family: 'Poppins',sans-serif;
-    color: #ffffff;
-    letter-spacing: 0.5px;
-    outline: none;
-    border: none;
+  font-family: Poppins, sans-serif;
+  color: #fff;
+  letter-spacing: 0.5px;
+  outline: none;
+  border: none;
 }
 
 form h3{
-    font-size: 32px;
-    font-weight: 500;
-    line-height: 42px;
-    text-align: center;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 42px;
+  text-align: center;
 }
 
 label{
-    display: block;
-    margin-top: 30px;
-    font-size: 16px;
-    font-weight: 500;
+  display: block;
+  margin-top: 30px;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 input{
-    display: block;
-    height: 50px;
-    width: 100%;
-    background-color: rgba(255,255,255,0.07);
-    border-radius: 3px;
-    padding: 0 10px;
-    margin-top: 8px;
-    font-size: 14px;
-    font-weight: 300;
+  display: block;
+  height: 50px;
+  width: 100%;
+  background-color: rgba(255,255,255,0.07);
+  border-radius: 3px;
+  padding: 0 10px;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 300;
 }
 
 ::placeholder{
-    color: #e5e5e5;
+  color: #e5e5e5;
 }
 
 form button{
-    margin-top: 50px;
-    width: 100%;
-    background-color: #ffffff;
-    color: #080710;
-    padding: 15px 0;
-    font-size: 18px;
-    font-weight: 600;
-    border-radius: 5px;
-    cursor: pointer;
+  margin-top: 50px;
+  width: 100%;
+  background-color: #fff;
+  color: #080710;
+  padding: 15px 0;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.register{
-    font-size: 18px;
-    font-weight: 200;
-    font-family: 'Poppins',sans-serif;
-    width: 150px;
-    position: absolute;
-    border: none;
-    background: none;
-    background-color: transparent;
-    color: #eaf0fb;
-    margin: auto;
-    text-align: center;
-    text-decoration: underline;
-    bottom: 110px;
-    left: 0;
-    right: 0;
-    cursor: pointer;
-}
-
-.register a {
-    color: #eaf0fb;
+form .register{
+  display: block;
+  font-size: 18px;
+  font-weight: 200;
+  font-family: Poppins, sans-serif;
+  width: fit-content;
+  position: relative;
+  border: none;
+  background: none;
+  background-color: transparent;
+  color: #eaf0fb;
+  margin: 29px auto;
+  text-align: center;
+  text-decoration: underline;
+  bottom: 0;
+  cursor: pointer;
 }
 
 p {
-    font-family: 'Poppins',sans-serif;
-    color: #eaf0fb;
-    position: absolute;
-    margin: 30px auto;
-    left: 0;
-    right: 0;
-    text-align: center;
+  font-family: Poppins, sans-serif;
+  color: #eaf0fb;
+  position: absolute;
+  margin: 30px auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .shape {
+    height: 120px;
+    width: 120px;
+  }
+
+  .shape.one {
+    top: -215px;
+    left: 50px;
+  }
+
+  .shape.two {
+    bottom: -215px;
+    right: 50px;
+  }
+
+  form {
+    height: auto;
+    padding: 20px 15px;
+  }
+
+  form h3 {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  form button {
+    padding: 10px 0;
+    font-size: 14px;
+  }
+
+  form .register {
+    margin: 19px auto;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .shape {
+    height: 100px;
+    width: 100px;
+  }
+  
+  .shape.one {
+    top: -160px;
+    left: 30px;
+  }
+  
+  .shape.two {
+    bottom: -160px;
+    right: 30px;
+  }
+  
+  form {
+    padding: 15px 10px;
+  }
+  
+  form h3 {
+    font-size: 18px;
+    line-height: 24px;
+  }
+  
+  form button {
+    padding: 8px 0;
+    font-size: 12px;
+  }
+  
+  label {
+    font-size: 12px;
+  }
+  
+  input {
+    height: 40px;
+  }
+
+  form .register {
+    margin: 9px auto;
+    font-size: 10px;
+  }
 }

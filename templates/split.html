@@ -33,12 +33,12 @@
 
     <div class="container-2">
         <div class="content">
-            <div class="swiper-slide">  
+            <div class="swiper-slide">
                 <img src="../static/split_squats.jpg" alt="Split Squats">
                 <p class="name">Split Squats</p>
             </div>
         </div>
-        
+
         <div class="concept">
             <h1>What is the point for Split Squats?</h1>
 
@@ -116,8 +116,8 @@
         </div>
 
         <form class="finish" action="/split" method="post">
-            <button type="submit" class="finish-b" {% if split_statues %}{% if split_statues[0][0] == "completed" %}disabled{% endif %}{% endif %}>
-                {% if split_statues %}{% if split_statues[0][0] == "completed" %}Completed{% endif %}{% else %}Mark Complete{% endif %}
+            <button type="submit" class="finish-b" {% if split_statues %}{% if split_statues[0]["statues"] == "completed" %}disabled{% endif %}{% endif %}>
+                {% if split_statues %}{% if split_statues[0]["statues"] == "completed" %}Completed{% endif %}{% else %}Mark Complete{% endif %}
             </button>
         </form>
     </div>

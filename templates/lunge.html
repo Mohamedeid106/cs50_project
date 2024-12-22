@@ -33,46 +33,46 @@
 
     <div class="container-2">
         <div class="content">
-            <div class="swiper-slide">  
+            <div class="swiper-slide">
                 <img src="../static/lunge.jpg" alt="Lunge fitness">
                 <p class="name">Lunge</p>
             </div>
         </div>
-        
+
         <div class="concept">
             <h1>What are the benefits of lunges?</h1>
 
             <p>
-                Lunges have multiple benefits. The biggest one is that they work several muscle groups of the lower body at the same time. 
+                Lunges have multiple benefits. The biggest one is that they work several muscle groups of the lower body at the same time.
                 Thus, they’re an important exercise in many strengthening and injury prevention programs,
                  such as for anterior cruciate ligament (ACL) injury prevention.
             </p>
-            
+
             <p>
                 Lunges are considered a unilateral exercise given the workload required of the lead leg compared to the rear.
             </p>
-            
+
             <p>
                 This allows you to better improve asymmetries in strength,
                  compared with squats, for instance. Also, lunges challenge and improve your balance and stability in unilateral movements.
             </p>
-            
+
             <p>
                 The lunge is a great exercise for runners in that the mechanics are similar to running.
                  The step out to landing is similar to the movements of a running stride,
                   but without the large ground reaction force the body experiences when running.
             </p>
-            
+
             <p>
                 This makes the lunge a great exercise to build stronger muscles with which to absorb the impact of higher intensity movements.
                  One older study found lunges — especially walking or jumping variations — to be very effective at training young athletes.
             </p>
-            
+
             <p>
                 Furthermore, opposing muscles of the legs are worked at the same time in the lunge.
                  This can mean increased efficiency for a resistance program.
             </p>
-            
+
             <p>
                 If you only have time for a few exercises,
                  it would be better to incorporate exercises that work multiple joints at the same time.
@@ -105,8 +105,8 @@
         </div>
 
         <form class="finish" action="/lunge" method="post">
-            <button type="submit" class="finish-b" {% if lunge_statues %}{% if lunge_statues[0][0] == "completed" %}disabled{% endif %}{% endif %}>
-                {% if lunge_statues %}{% if lunge_statues[0][0] == "completed" %}Completed{% endif %}{% else %}Mark Complete{% endif %}
+            <button type="submit" class="finish-b" {% if lunge_statues %}{% if lunge_statues[0]["statues"] == "completed" %}disabled{% endif %}{% endif %}>
+                {% if lunge_statues %}{% if lunge_statues[0]["statues"] == "completed" %}Completed{% endif %}{% else %}Mark Complete{% endif %}
             </button>
         </form>
     </div>

@@ -33,12 +33,12 @@
 
     <div class="container-2">
         <div class="content">
-            <div class="swiper-slide">  
+            <div class="swiper-slide">
                 <img src="../static/deadlift.jpg" alt="Dead Lift">
                 <p class="name">Dead Lift</p>
             </div>
         </div>
-        
+
         <div class="concept">
             <h1>What is Dead Lift?</h1>
 
@@ -95,7 +95,7 @@
                 <li>
                     <strong>Step 7</strong>: Lower the bar toward the floor with a reverse motion ensuring a straight back.
                 </li>
-                
+
                 <li>
                     <strong>Step 8</strong>: Repeat for your desired number of repetitions.
                 </li>
@@ -103,8 +103,8 @@
         </div>
 
         <form class="finish" action="/dlift" method="post">
-            <button type="submit" class="finish-b" {% if dlift_statues %}{% if dlift_statues[0][0] == "completed" %}disabled{% endif %}{% endif %}>
-                {% if dlift_statues %}{% if dlift_statues[0][0] == "completed" %}Completed{% endif %}{% else %}Mark Complete{% endif %}
+            <button type="submit" class="finish-b" {% if dlift_statues %}{% if dlift_statues[0]["statues"] == "completed" %}disabled{% endif %}{% endif %}>
+                {% if dlift_statues %}{% if dlift_statues[0]["statues"] == "completed" %}Completed{% endif %}{% else %}Mark Complete{% endif %}
             </button>
         </form>
     </div>

@@ -33,12 +33,12 @@
 
     <div class="container-2">
         <div class="content">
-            <div class="swiper-slide">  
+            <div class="swiper-slide">
                 <img src="../static/squat.jpg" alt="Squat fitness">
                 <p class="name">Squat</p>
             </div>
         </div>
-        
+
         <div class="concept">
             <h1>What is Squat?</h1>
 
@@ -46,16 +46,16 @@
                 The squat is a fundamental movement pattern that requires multiple joint and muscle integration.
                  Babies squat perfectly. And then we unlearn this in favor of bending over.
             </p>
-            
+
             <p>
                 As a dynamic strength training exercise, squats require several muscles in your upper and lower body to work together simultaneously.
             </p>
-            
+
             <p>
                 Many of these muscles help power you through daily tasks such as walking, climbing stairs, bending, or carrying heavy loads.
                  They also help you perform athletic-related activities.
             </p>
-            
+
             <p>
                 Adding squats to your workouts can help boost your exercise performance, decrease your risk of injury,
                  and keep you moving more easily throughout the day. But these are just a few of the benefits.
@@ -69,7 +69,7 @@
                 Known as a bodyweight squat or an air squat, the most basic type of squat uses just your body weight for resistance.
                  Variations of the squat can include weights, like barbells or dumbbells, resistance bands, or yoga balls.
             </p>
-            
+
             <p>
                 Ideally, it’s a good idea to work with a trainer to help you with your form when learning a squat.
                  When you begin, the pressure in the squat should be placed almost evenly through your feet. Sometimes this is called foot tripod.
@@ -111,8 +111,8 @@
         </div>
 
         <form class="finish" action="/squat" method="post">
-            <button type="submit" class="finish-b" {% if squat_statues %}{% if squat_statues[0][0] == "completed" %}disabled{% endif %}{% endif %}>
-                {% if squat_statues %}{% if squat_statues[0][0] == "completed" %}Completed{% endif %}{% else %}Mark Complete{% endif %}
+            <button type="submit" class="finish-b" {% if squat_statues %}{% if squat_statues[0]["statues"] == "completed" %}disabled{% endif %}{% endif %}>
+                {% if squat_statues %}{% if squat_statues[0]["statues"] == "completed" %}Completed{% endif %}{% else %}Mark Complete{% endif %}
             </button>
         </form>
     </div>

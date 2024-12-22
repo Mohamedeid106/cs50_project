@@ -1,13 +1,12 @@
 import os
-import sqlite3
 from flask import Flask, session, redirect, render_template, request, flash
 from werkzeug.utils import secure_filename
 from flask_session import Session
+from cs50 import SQL
 
 app = Flask(__name__)
 
 UPLOAD_FOlDER = 'static/uploads/'
-
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOlDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
@@ -15,6 +14,9 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+
+# Connecting to the database file
+db = SQL("sqlite:///project.db")
 
 fitness = ["plank", "lunge", "crunch", "squat"]
 muscular = ["deadlift", "bench", "split", "leg"]
@@ -56,29 +58,19 @@ def login():
             return redirect("/")
 
         # Query database for username
-        conn = sqlite3.connect('./project.db')
-        db = conn.cursor()
-        rows = db.execute("SELECT * FROM users WHERE name = ?", (username,))
-        rows = rows.fetchall()
-        conn.commit()
-        conn.close()
+        rows = db.execute("SELECT * FROM users WHERE name = ?", username)
 
         # Ensure username exists and password is correct
-        if len(rows) != 1 or (rows[0][2] != password):
+        if len(rows) != 1 or (rows[0]["password"] != password):
             flash("invalid username and/or password")
             return redirect("/")
 
         # Remember which user has logged in
-        session["user_id"] = rows[0][0]
+        session["user_id"] = rows[0]["id"]
 
-        conn = sqlite3.connect('./project.db')
-        db = conn.cursor()
-        name = db.execute("SELECT user_name FROM users WHERE id = ?", (session["user_id"],))
-        name = name.fetchall()
-        conn.commit()
-        conn.close()
+        name = db.execute("SELECT user_name FROM users WHERE id = ?", session["user_id"])
 
-        session['user_name'] = name[0][0]
+        session['user_name'] = name[0]["user_name"]
 
         # Redirect user to home page
         return redirect("/homepage")
@@ -113,29 +105,24 @@ def register():
             flash("The passwords do not match")
             return redirect("/register")
 
-        #insert the new user into users
-        try:
-            conn = sqlite3.connect('./project.db')
-            db = conn.cursor()
-            db.execute("INSERT INTO users (name, password) VALUES (?,?)", (username, password))
-            new_user = db.execute("SELECT id FROM users WHERE name = ? and password = ?", (username, password))
-            new_user = new_user.fetchall()
-            conn.commit()
-            conn.close()
-        except:
+        #query for the new user from users
+        rows = db.execute("SELECT * FROM users WHERE name = ?", username)
+
+        # Ensure username exists
+        if len(rows) == 1:
             flash("The username already exists")
             return redirect("/register")
 
-        session["user_id"] = new_user[0][0]
+        #insert the new user into users
+        db.execute("INSERT INTO users (name, password) VALUES (?,?)", username, password)
 
-        conn = sqlite3.connect('./project.db')
-        db = conn.cursor()
-        name = db.execute("SELECT user_name FROM users WHERE id = ?", (session["user_id"],))
-        name = name.fetchall()
-        conn.commit()
-        conn.close()
+        new_user = db.execute("SELECT id FROM users WHERE name = ? and password = ?", username, password)
 
-        session['user_name'] = name[0][0]
+        session["user_id"] = new_user[0]["id"]
+
+        username_db = db.execute("SELECT user_name FROM users WHERE id = ?", session["user_id"])
+
+        session["user_name"] = username_db[0]["user_name"]
 
         # Redirect user to home page
         return redirect("/homepage")
@@ -148,15 +135,11 @@ def hello():
     if request.method == "POST":
         username = request.form.get("name")
 
-        conn = sqlite3.connect('./project.db')
-        db = conn.cursor()
-        db.execute("UPDATE users SET user_name = ? WHERE id = ?", (username, session["user_id"]))
-        conn.commit()
-        conn.close()
+        db.execute("UPDATE users SET user_name = ? WHERE id = ?", username, session["user_id"])
 
         session['user_name'] = username
         return redirect('/edit')
-    
+
     if session['user_name']:
         name = session['user_name']
     else:
@@ -164,36 +147,21 @@ def hello():
 
     fitness_progress = 0
     for i in fitness:
-        conn = sqlite3.connect('./project.db')
-        db = conn.cursor()
-        check = db.execute(f"SELECT id FROM {i} WHERE statues = 'completed' and user_id = ?", (session["user_id"],))
-        check = check.fetchall()
-        conn.commit()
-        conn.close()
+        check = db.execute(f"SELECT id FROM {i} WHERE statues = 'completed' and user_id = ?", session["user_id"])
 
         if check:
             fitness_progress += 10
 
     muscular_progress = 0
     for i in muscular:
-        conn = sqlite3.connect('./project.db')
-        db = conn.cursor()
-        check = db.execute(f"SELECT id FROM {i} WHERE statues = 'completed' and user_id = ?", (session["user_id"],))
-        check = check.fetchall()
-        conn.commit()
-        conn.close()
+        check = db.execute(f"SELECT id FROM {i} WHERE statues = 'completed' and user_id = ?", session["user_id"])
 
         if check:
             muscular_progress += 10
 
-    conn = sqlite3.connect('./project.db')
-    db = conn.cursor()
-    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", (session['user_id'],))
-    profile_pic = profile_pic.fetchall()
-    conn.commit()
-    conn.close()
+    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", session['user_id'])
 
-    return render_template('homepage.html', fitness_progress=int((fitness_progress / 40) * 100) , muscular_progress=int((muscular_progress / 40) * 100), profile_pic=profile_pic[0][0], name=name)
+    return render_template('homepage.html', fitness_progress=int((fitness_progress / 40) * 100) , muscular_progress=int((muscular_progress / 40) * 100), profile_pic=profile_pic[0]["pic"], name=name)
 
 @app.route('/edit', methods=["GET", "POST"])
 def edit():
@@ -201,23 +169,18 @@ def edit():
         if 'file' not in request.files:
             flash('No file part')
             return redirect('/edit')
-        
+
         file = request.files['file']
         if file.filename == '':
             flash('No image selected for uploading')
             return redirect('/edit')
-        
+
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            conn = sqlite3.connect('./project.db')
-            db = conn.cursor()
-            db.execute("UPDATE users SET pic = ? WHERE id = ?", (('uploads/' + filename), session['user_id']))
-            profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", (session['user_id'],))
-            profile_pic = profile_pic.fetchall()
-            conn.commit()
-            conn.close()
+            db.execute("UPDATE users SET pic = ? WHERE id = ?", ('uploads/' + filename), session['user_id'])
+            profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", session['user_id'])
 
             if session['user_name']:
                 name = session['user_name']
@@ -225,328 +188,222 @@ def edit():
                 name = 'Your Name'
 
             flash('Image successfully uploaded')
-            return render_template("edit.html", profile_pic=profile_pic[0][0], name=name)
-        
-        flash('Allowed image types are - png, jpg, jpeg, gif -')
-        return redirect('/edit')
+            return render_template("edit.html", profile_pic=profile_pic[0]["pic"], name=name)
+        else:
+            flash('Allowed image types are - png, jpg, jpeg, gif -')
+            return redirect('/edit')
 
-    conn = sqlite3.connect('./project.db')
-    db = conn.cursor()
-    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", (session['user_id'],))
-    profile_pic = profile_pic.fetchall()
-    conn.commit()
-    conn.close()
+    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", session['user_id'])
 
     if session['user_name']:
         name = session['user_name']
     else:
         name = 'Your Name'
 
-    return render_template("edit.html", profile_pic=profile_pic[0][0], name=name)
+    return render_template("edit.html", profile_pic=profile_pic[0]["pic"], name=name)
 
 @app.route('/activity')
 def activity():
-    conn = sqlite3.connect('./project.db')
-    db = conn.cursor()
-    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", (session['user_id'],))
-    profile_pic = profile_pic.fetchall()
-    conn.commit()
-    conn.close()
+    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", session['user_id'])
 
     if session['user_name']:
         name = session['user_name']
     else:
         name = 'Your Name'
 
-    return render_template('activity.html', profile_pic=profile_pic[0][0], name=name)
+    return render_template('activity.html', profile_pic=profile_pic[0]["pic"], name=name)
 
 @app.route('/plank', methods=["GET", "POST"])
 def plank():
     if request.method == "POST":
-        conn = sqlite3.connect('./project.db')
-        db = conn.cursor()
-        db.execute("INSERT INTO plank (user_id, statues) VALUES (?,?)", (session["user_id"], "completed"))
-        plank_statues = db.execute("SELECT statues FROM plank WHERE user_id = ?", (session["user_id"],))
-        plank_statues = plank_statues.fetchall()
-        profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", (session['user_id'],))
-        profile_pic = profile_pic.fetchall()
-        conn.commit()
-        conn.close()
+        db.execute("INSERT INTO plank (user_id, statues) VALUES (?,?)", session["user_id"], "completed")
+        plank_statues = db.execute("SELECT statues FROM plank WHERE user_id = ?", session["user_id"])
+        profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", session['user_id'])
 
         if session['user_name']:
             name = session['user_name']
         else:
             name = 'Your Name'
 
-        return render_template('plank.html', plank_statues=plank_statues, profile_pic=profile_pic[0][0], name=name)
-    
-    conn = sqlite3.connect('./project.db')
-    db = conn.cursor()
-    plank_statues = db.execute("SELECT statues FROM plank WHERE user_id = ?", (session["user_id"],))
-    plank_statues = plank_statues.fetchall()
-    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", (session['user_id'],))
-    profile_pic = profile_pic.fetchall()
-    conn.commit()
-    conn.close()
+        return render_template('plank.html', plank_statues=plank_statues, profile_pic=profile_pic[0]["pic"], name=name)
+
+    plank_statues = db.execute("SELECT statues FROM plank WHERE user_id = ?", session["user_id"])
+    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", session['user_id'])
 
     if session['user_name']:
         name = session['user_name']
     else:
         name = 'Your Name'
 
-    return render_template('plank.html', plank_statues=plank_statues, profile_pic=profile_pic[0][0], name=name)
+    return render_template('plank.html', plank_statues=plank_statues, profile_pic=profile_pic[0]["pic"], name=name)
 
 @app.route('/lunge', methods=["GET", "POST"])
 def lunge():
     if request.method == "POST":
-        conn = sqlite3.connect('./project.db')
-        db = conn.cursor()
-        db.execute("INSERT INTO lunge (user_id, statues) VALUES (?,?)", (session["user_id"], "completed"))
-        lunge_statues = db.execute("SELECT statues FROM lunge WHERE user_id = ?", (session["user_id"],))
-        lunge_statues = lunge_statues.fetchall()
-        profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", (session['user_id'],))
-        profile_pic = profile_pic.fetchall()
-        conn.commit()
-        conn.close()
-        
+        db.execute("INSERT INTO lunge (user_id, statues) VALUES (?,?)", session["user_id"], "completed")
+        lunge_statues = db.execute("SELECT statues FROM lunge WHERE user_id = ?", session["user_id"])
+        profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", session['user_id'])
+
         if session['user_name']:
             name = session['user_name']
         else:
             name = 'Your Name'
 
-        return render_template('lunge.html', lunge_statues=lunge_statues, profile_pic=profile_pic[0][0], name=name)
-    
-    conn = sqlite3.connect('./project.db')
-    db = conn.cursor()
-    lunge_statues = db.execute("SELECT statues FROM lunge WHERE user_id = ?", (session["user_id"],))
-    lunge_statues = lunge_statues.fetchall()
-    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", (session['user_id'],))
-    profile_pic = profile_pic.fetchall()
-    conn.commit()
-    conn.close()
+        return render_template('lunge.html', lunge_statues=lunge_statues, profile_pic=profile_pic[0]["pic"], name=name)
+
+    lunge_statues = db.execute("SELECT statues FROM lunge WHERE user_id = ?", session["user_id"])
+    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", session['user_id'])
 
     if session['user_name']:
         name = session['user_name']
     else:
         name = 'Your Name'
 
-    return render_template('lunge.html', lunge_statues=lunge_statues, profile_pic=profile_pic[0][0], name=name)
+    return render_template('lunge.html', lunge_statues=lunge_statues, profile_pic=profile_pic[0]["pic"], name=name)
 
 @app.route('/crunch', methods=["GET", "POST"])
 def crunch():
     if request.method == "POST":
-        conn = sqlite3.connect('./project.db')
-        db = conn.cursor()
-        db.execute("INSERT INTO crunch (user_id, statues) VALUES (?,?)", (session["user_id"], "completed"))
-        crunch_statues = db.execute("SELECT statues FROM crunch WHERE user_id = ?", (session["user_id"],))
-        crunch_statues = crunch_statues.fetchall()
-        profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", (session['user_id'],))
-        profile_pic = profile_pic.fetchall()
-        conn.commit()
-        conn.close()
+        db.execute("INSERT INTO crunch (user_id, statues) VALUES (?,?)", session["user_id"], "completed")
+        crunch_statues = db.execute("SELECT statues FROM crunch WHERE user_id = ?", session["user_id"])
+        profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", session['user_id'])
 
         if session['user_name']:
             name = session['user_name']
         else:
             name = 'Your Name'
 
-        return render_template('crunch.html', crunch_statues=crunch_statues, profile_pic=profile_pic[0][0], name=name)
-    
-    conn = sqlite3.connect('./project.db')
-    db = conn.cursor()
-    crunch_statues = db.execute("SELECT statues FROM crunch WHERE user_id = ?", (session["user_id"],))
-    crunch_statues = crunch_statues.fetchall()
-    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", (session['user_id'],))
-    profile_pic = profile_pic.fetchall()
-    conn.commit()
-    conn.close()
+        return render_template('crunch.html', crunch_statues=crunch_statues, profile_pic=profile_pic[0]["pic"], name=name)
+
+    crunch_statues = db.execute("SELECT statues FROM crunch WHERE user_id = ?", session["user_id"])
+    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", session['user_id'])
 
     if session['user_name']:
         name = session['user_name']
     else:
         name = 'Your Name'
 
-    return render_template('crunch.html', crunch_statues=crunch_statues, profile_pic=profile_pic[0][0], name=name)
+    return render_template('crunch.html', crunch_statues=crunch_statues, profile_pic=profile_pic[0]["pic"], name=name)
 
 @app.route('/squat', methods=["GET", "POST"])
 def squat():
     if request.method == "POST":
-        conn = sqlite3.connect('./project.db')
-        db = conn.cursor()
-        db.execute("INSERT INTO squat (user_id, statues) VALUES (?,?)", (session["user_id"], "completed"))
-        squat_statues = db.execute("SELECT statues FROM squat WHERE user_id = ?", (session["user_id"],))
-        squat_statues = squat_statues.fetchall()
-        profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", (session['user_id'],))
-        profile_pic = profile_pic.fetchall()
-        conn.commit()
-        conn.close()
+        db.execute("INSERT INTO squat (user_id, statues) VALUES (?,?)", session["user_id"], "completed")
+        squat_statues = db.execute("SELECT statues FROM squat WHERE user_id = ?", session["user_id"])
+        profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", session['user_id'])
 
         if session['user_name']:
             name = session['user_name']
         else:
             name = 'Your Name'
 
-        return render_template('squat.html', squat_statues=squat_statues, profile_pic=profile_pic[0][0], name=name)
-    
-    conn = sqlite3.connect('./project.db')
-    db = conn.cursor()
-    squat_statues = db.execute("SELECT statues FROM squat WHERE user_id = ?", (session["user_id"],))
-    squat_statues = squat_statues.fetchall()
-    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", (session['user_id'],))
-    profile_pic = profile_pic.fetchall()
-    conn.commit()
-    conn.close()
+        return render_template('squat.html', squat_statues=squat_statues, profile_pic=profile_pic[0]["pic"], name=name)
+
+    squat_statues = db.execute("SELECT statues FROM squat WHERE user_id = ?", session["user_id"])
+    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", session['user_id'])
 
     if session['user_name']:
         name = session['user_name']
     else:
         name = 'Your Name'
 
-    return render_template('squat.html', squat_statues=squat_statues, profile_pic=profile_pic[0][0], name=name)
+    return render_template('squat.html', squat_statues=squat_statues, profile_pic=profile_pic[0]["pic"], name=name)
 
 @app.route('/dlift', methods=["GET", "POST"])
 def dlift():
     if request.method == "POST":
-        conn = sqlite3.connect('./project.db')
-        db = conn.cursor()
-        db.execute("INSERT INTO deadlift (user_id, statues) VALUES (?,?)", (session["user_id"], "completed"))
-        dlift_statues = db.execute("SELECT statues FROM deadlift WHERE user_id = ?", (session["user_id"],))
-        dlift_statues = dlift_statues.fetchall()
-        profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", (session['user_id'],))
-        profile_pic = profile_pic.fetchall()
-        conn.commit()
-        conn.close()
+        db.execute("INSERT INTO deadlift (user_id, statues) VALUES (?,?)", session["user_id"], "completed")
+        dlift_statues = db.execute("SELECT statues FROM deadlift WHERE user_id = ?", session["user_id"])
+        profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", session['user_id'])
 
         if session['user_name']:
             name = session['user_name']
         else:
             name = 'Your Name'
 
-        return render_template('deadlift.html', dlift_statues=dlift_statues, profile_pic=profile_pic[0][0], name=name)
-    
-    conn = sqlite3.connect('./project.db')
-    db = conn.cursor()
-    dlift_statues = db.execute("SELECT statues FROM deadlift WHERE user_id = ?", (session["user_id"],))
-    dlift_statues = dlift_statues.fetchall()
-    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", (session['user_id'],))
-    profile_pic = profile_pic.fetchall()
-    conn.commit()
-    conn.close()
+        return render_template('deadlift.html', dlift_statues=dlift_statues, profile_pic=profile_pic[0]["pic"], name=name)
+
+    dlift_statues = db.execute("SELECT statues FROM deadlift WHERE user_id = ?", session["user_id"])
+    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", session['user_id'])
 
     if session['user_name']:
         name = session['user_name']
     else:
         name = 'Your Name'
 
-    return render_template('deadlift.html', dlift_statues=dlift_statues, profile_pic=profile_pic[0][0], name=name)
+    return render_template('deadlift.html', dlift_statues=dlift_statues, profile_pic=profile_pic[0]["pic"], name=name)
 
 @app.route('/bench', methods=["GET", "POST"])
 def bench():
     if request.method == "POST":
-        conn = sqlite3.connect('./project.db')
-        db = conn.cursor()
-        db.execute("INSERT INTO bench (user_id, statues) VALUES (?,?)", (session["user_id"], "completed"))
-        bench_statues = db.execute("SELECT statues FROM bench WHERE user_id = ?", (session["user_id"],))
-        bench_statues = bench_statues.fetchall()
-        profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", (session['user_id'],))
-        profile_pic = profile_pic.fetchall()
-        conn.commit()
-        conn.close()
+        db.execute("INSERT INTO bench (user_id, statues) VALUES (?,?)", session["user_id"], "completed")
+        bench_statues = db.execute("SELECT statues FROM bench WHERE user_id = ?", session["user_id"])
+        profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", session['user_id'])
 
         if session['user_name']:
             name = session['user_name']
         else:
             name = 'Your Name'
 
-        return render_template('bench.html', bench_statues=bench_statues, profile_pic=profile_pic[0][0], name=name)
-    
-    conn = sqlite3.connect('./project.db')
-    db = conn.cursor()
-    bench_statues = db.execute("SELECT statues FROM bench WHERE user_id = ?", (session["user_id"],))
-    bench_statues = bench_statues.fetchall()
-    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", (session['user_id'],))
-    profile_pic = profile_pic.fetchall()
-    conn.commit()
-    conn.close()
+        return render_template('bench.html', bench_statues=bench_statues, profile_pic=profile_pic[0]["pic"], name=name)
+
+    bench_statues = db.execute("SELECT statues FROM bench WHERE user_id = ?", session["user_id"])
+    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", session['user_id'])
 
     if session['user_name']:
         name = session['user_name']
     else:
         name = 'Your Name'
 
-    return render_template('bench.html', bench_statues=bench_statues, profile_pic=profile_pic[0][0], name=name)
+    return render_template('bench.html', bench_statues=bench_statues, profile_pic=profile_pic[0]["pic"], name=name)
 
 @app.route('/split', methods=["GET", "POST"])
 def split():
     if request.method == "POST":
-        conn = sqlite3.connect('./project.db')
-        db = conn.cursor()
-        db.execute("INSERT INTO split (user_id, statues) VALUES (?,?)", (session["user_id"], "completed"))
-        split_statues = db.execute("SELECT statues FROM split WHERE user_id = ?", (session["user_id"],))
-        split_statues = split_statues.fetchall()
-        profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", (session['user_id'],))
-        profile_pic = profile_pic.fetchall()
-        conn.commit()
-        conn.close()
+        db.execute("INSERT INTO split (user_id, statues) VALUES (?,?)", session["user_id"], "completed")
+        split_statues = db.execute("SELECT statues FROM split WHERE user_id = ?", session["user_id"])
+        profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", session['user_id'])
 
         if session['user_name']:
             name = session['user_name']
         else:
             name = 'Your Name'
 
-        return render_template('split.html', split_statues=split_statues, profile_pic=profile_pic[0][0], name=name)
-    
-    conn = sqlite3.connect('./project.db')
-    db = conn.cursor()
-    split_statues = db.execute("SELECT statues FROM split WHERE user_id = ?", (session["user_id"],))
-    split_statues = split_statues.fetchall()
-    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", (session['user_id'],))
-    profile_pic = profile_pic.fetchall()
-    conn.commit()
-    conn.close()
+        return render_template('split.html', split_statues=split_statues, profile_pic=profile_pic[0]["pic"], name=name)
+
+    split_statues = db.execute("SELECT statues FROM split WHERE user_id = ?", session["user_id"])
+    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", session['user_id'])
 
     if session['user_name']:
         name = session['user_name']
     else:
         name = 'Your Name'
 
-    return render_template('split.html', split_statues=split_statues, profile_pic=profile_pic[0][0], name=name)
+    return render_template('split.html', split_statues=split_statues, profile_pic=profile_pic[0]["pic"], name=name)
 
 @app.route('/leg', methods=["GET", "POST"])
 def leg():
     if request.method == "POST":
-        conn = sqlite3.connect('./project.db')
-        db = conn.cursor()
-        db.execute("INSERT INTO leg (user_id, statues) VALUES (?,?)", (session["user_id"], "completed"))
-        leg_statues = db.execute("SELECT statues FROM leg WHERE user_id = ?", (session["user_id"],))
-        leg_statues = leg_statues.fetchall()
-        profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", (session['user_id'],))
-        profile_pic = profile_pic.fetchall()
-        conn.commit()
-        conn.close()
+        db.execute("INSERT INTO leg (user_id, statues) VALUES (?,?)", session["user_id"], "completed")
+        leg_statues = db.execute("SELECT statues FROM leg WHERE user_id = ?", session["user_id"])
+        profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", session['user_id'])
 
         if session['user_name']:
             name = session['user_name']
         else:
             name = 'Your Name'
 
-        return render_template('leg.html', leg_statues=leg_statues, profile_pic=profile_pic[0][0], name=name)
-    
-    conn = sqlite3.connect('./project.db')
-    db = conn.cursor()
-    leg_statues = db.execute("SELECT statues FROM leg WHERE user_id = ?", (session["user_id"],))
-    leg_statues = leg_statues.fetchall()
-    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", (session['user_id'],))
-    profile_pic = profile_pic.fetchall()
-    conn.commit()
-    conn.close()
+        return render_template('leg.html', leg_statues=leg_statues, profile_pic=profile_pic[0]["pic"], name=name)
+
+    leg_statues = db.execute("SELECT statues FROM leg WHERE user_id = ?", session["user_id"])
+    profile_pic = db.execute("SELECT pic FROM users WHERE id = ?", session['user_id'])
 
     if session['user_name']:
         name = session['user_name']
     else:
         name = 'Your Name'
 
-    return render_template('leg.html', leg_statues=leg_statues, profile_pic=profile_pic[0][0], name=name)
+    return render_template('leg.html', leg_statues=leg_statues, profile_pic=profile_pic[0]["pic"], name=name)
 
 @app.route("/logout")
 def logout():

@@ -10,28 +10,26 @@
 
 {% block body %}
 
-    <div class="background">
-        <div class="shape"></div>
-
-        <div class="shape"></div>
-    </div>
-
-    {% for message in get_flashed_messages() %}
-        <p>{{ message }}</p>
-    {% endfor %}
+    <div class="shape one"></div>
 
     <form action="/login" method="post">
         <h3>Login Here</h3>
-
+        
         <label for="username">Username</label>
         <input type="text" autocomplete="off" autofocus required placeholder="Your Name" name="username" id="username">
 
         <label for="password">Password</label>
         <input type="password" autocomplete="off" required placeholder="Password" name="password" id="password">
-
+        
         <button type="submit">Log In</button>
+        
+        <a class="register" href="/register">Register</a>
     </form>
     
-    <button class="register" type="button"><a href="/register">Register</a></button>
-
+    <div class="shape two"></div>
+    
+    {% for message in get_flashed_messages() %}
+        <p>{{ message }}</p>
+    {% endfor %}
+    
 {% endblock %}
